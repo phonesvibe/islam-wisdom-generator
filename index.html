@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./icon-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Islamic Wisdom Generator</title>
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="theme-color" content="#0d9488" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Using Google Fonts for better readability and aesthetics */
+      @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
+      body {
+        font-family: 'Lato', sans-serif;
+      }
+      .font-arabic {
+        font-family: 'Noto Naskh Arabic', serif;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.9.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.45.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-50 dark:bg-gray-900">
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

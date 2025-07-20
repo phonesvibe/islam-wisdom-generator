@@ -1,0 +1,6 @@
+{
+  "name": "Islamic Wisdom Generator",
+  "description": "An application to generate Quranic verses and Hadith on various topics, providing spiritual guidance and knowledge with a clean and inspiring interface.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

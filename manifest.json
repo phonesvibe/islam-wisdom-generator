@@ -1,0 +1,21 @@
+{
+  "name": "Islamic Wisdom Generator",
+  "short_name": "Islamic Wisdom",
+  "description": "An application to generate Quranic verses and Hadith on various topics, providing spiritual guidance and knowledge with a clean and inspiring interface.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#0d9488",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
