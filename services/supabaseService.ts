@@ -1,12 +1,84 @@
 
 
 import { createClient } from '@supabase/supabase-js';
-import type { UserUpload, UserUploadInsert, UserUploadUpdate, ScheduledPost, ScheduledPostInsert, ScheduledPostUpdate, Json, PostableContent } from '../types';
+import type { UserUpload, UserUploadInsert, UserUploadUpdate, ScheduledPost, ScheduledPostInsert, ScheduledPostUpdate, Json, PostableContent, QuranVerseType, HadithType, StoryType, GeneratedContent, ActiveView } from '../types';
 
 // Manually define the database schema to provide type safety for the Supabase client.
 export type Database = {
   public: {
     Tables: {
+      quran_verses: {
+        Row: {
+          id: string;
+          verse_arabic: string;
+          verse_english: string;
+          verse_urdu: string;
+          reference: string;
+          tags: string[] | null;
+          created_at: string;
+        };
+        Insert: {
+          verse_arabic: string;
+          verse_english: string;
+          verse_urdu: string;
+          reference: string;
+          tags?: string[] | null;
+        };
+        Update: {
+          verse_arabic?: string;
+          verse_english?: string;
+          verse_urdu?: string;
+          reference?: string;
+          tags?: string[] | null;
+        };
+        Relationships: [];
+      };
+      hadith: {
+        Row: {
+          id: string;
+          text_english: string;
+          text_urdu: string;
+          narrator: string;
+          source: string;
+          tags: string[] | null;
+          created_at: string;
+        };
+        Insert: {
+          text_english: string;
+          text_urdu: string;
+          narrator: string;
+          source: string;
+          tags?: string[] | null;
+        };
+        Update: {
+          text_english?: string;
+          text_urdu?: string;
+          narrator?: string;
+          source?: string;
+          tags?: string[] | null;
+        };
+        Relationships: [];
+      };
+      stories: {
+        Row: {
+          id: string;
+          title: string;
+          story: string;
+          tags: string[] | null;
+          created_at: string;
+        };
+        Insert: {
+          title: string;
+          story: string;
+          tags?: string[] | null;
+        };
+        Update: {
+          title?: string;
+          story?: string;
+          tags?: string[] | null;
+        };
+        Relationships: [];
+      };
       uploads: {
         Row: UserUpload;
         Insert: UserUploadInsert;
@@ -37,6 +109,91 @@ if (!supabaseUrl || !supabaseKey) {
 export const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 const BUCKET_NAME = 'uploads';
+
+// Islamic Content Management
+export const getQuranVerses = async (searchTerm?: string, limit: number = 5): Promise<QuranVerseType[]> => {
+    let query = supabase
+        .from('quran_verses')
+        .select('verse_arabic, verse_english, verse_urdu, reference');
+
+    if (searchTerm && searchTerm.trim()) {
+        // Search in multiple fields and tags
+        query = query.or(`verse_english.ilike.%${searchTerm}%,verse_urdu.ilike.%${searchTerm}%,reference.ilike.%${searchTerm}%,tags.cs.{${searchTerm}}`);
+    }
+
+    const { data, error } = await query
+        .limit(limit)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error("Error fetching Quran verses:", error.message, error);
+        throw error;
+    }
+    return data || [];
+};
+
+export const getHadith = async (searchTerm?: string, limit: number = 3): Promise<HadithType[]> => {
+    let query = supabase
+        .from('hadith')
+        .select('text_english, text_urdu, narrator, source');
+
+    if (searchTerm && searchTerm.trim()) {
+        // Search in multiple fields and tags
+        query = query.or(`text_english.ilike.%${searchTerm}%,text_urdu.ilike.%${searchTerm}%,narrator.ilike.%${searchTerm}%,source.ilike.%${searchTerm}%,tags.cs.{${searchTerm}}`);
+    }
+
+    const { data, error } = await query
+        .limit(limit)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error("Error fetching Hadith:", error.message, error);
+        throw error;
+    }
+    return data || [];
+};
+
+export const getStories = async (searchTerm?: string, limit: number = 3): Promise<StoryType[]> => {
+    let query = supabase
+        .from('stories')
+        .select('title, story');
+
+    if (searchTerm && searchTerm.trim()) {
+        // Search in multiple fields and tags
+        query = query.or(`title.ilike.%${searchTerm}%,story.ilike.%${searchTerm}%,tags.cs.{${searchTerm}}`);
+    }
+
+    const { data, error } = await query
+        .limit(limit)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error("Error fetching Stories:", error.message, error);
+        throw error;
+    }
+    return data || [];
+};
+
+export const getIslamicContentFromDatabase = async (searchTerm: string, view: ActiveView): Promise<GeneratedContent> => {
+    const content: GeneratedContent = {};
+
+    try {
+        if (view === 'home' || view === 'quran') {
+            content.quran = await getQuranVerses(searchTerm, view === 'quran' ? 5 : 3);
+        }
+        if (view === 'home' || view === 'hadith') {
+            content.hadith = await getHadith(searchTerm, 3);
+        }
+        if (view === 'stories') {
+            content.stories = await getStories(searchTerm, 3);
+        }
+    } catch (error) {
+        console.error("Error fetching Islamic content from database:", error);
+        throw error;
+    }
+
+    return content;
+};
 
 // User Uploads Management
 export const getAllUploads = async (): Promise<UserUpload[]> => {

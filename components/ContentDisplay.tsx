@@ -25,17 +25,17 @@ const LoadingSkeleton: React.FC = () => (
 
 const InitialState: React.FC<{ view: ActiveView }> = ({ view }) => {
     let title = "Your spiritual journey starts here";
-    let message = "Discover profound wisdom from the Quran and Hadith by searching for a topic above.";
+    let message = "Discover profound wisdom from the Quran and Hadith. Search for a topic above or browse our curated content.";
 
     if (view === 'quran') {
         title = "The Holy Qur'an";
-        message = "Displaying curated verses from the Quran. Use the search bar above to find specific verses.";
+        message = "Browse our collection of Quranic verses. Use the search bar above to find specific verses.";
     } else if (view === 'hadith') {
         title = "The Sunnah of the Prophet (ﷺ)";
-        message = "Displaying curated sayings and traditions. Use the search bar above to find specific hadith.";
+        message = "Browse our collection of authentic Hadith. Use the search bar above to find specific traditions.";
     } else if (view === 'stories') {
         title = "Stories of the Prophets & Companions";
-        message = "Displaying inspirational stories. Use the search bar above to find specific stories.";
+        message = "Browse our collection of inspirational stories. Use the search bar above to find specific stories.";
     }
     
     return (

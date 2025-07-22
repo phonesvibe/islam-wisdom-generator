@@ -34,7 +34,7 @@ const App: React.FC = () => {
     
     const apiTopic = searchTerm || (currentView !== 'home' ? `a few popular and inspiring ${currentView}` : '');
 
-    if (!apiTopic.trim()) {
+    if (!apiTopic.trim() && currentView === 'home') {
       setError('Please enter a topic to search.');
       setIsLoading(false);
       return;
@@ -45,11 +45,12 @@ const App: React.FC = () => {
     }
 
     try {
-      const result = await generateIslamicContent(apiTopic, currentView);
+      // For non-home views without search term, try database first with empty search
+      const result = await generateIslamicContent(apiTopic, currentView, true);
       setContent(result);
     } catch (err) {
       console.error(err);
-      setError('Failed to generate content. Please check your API key and try again.');
+      setError('Failed to load content. Please try again.');
       setContent(null);
     } finally {
       setIsLoading(false);
