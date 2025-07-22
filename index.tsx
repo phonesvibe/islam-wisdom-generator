@@ -6,6 +6,12 @@ import App from './App';
 // We want to register the service worker after the page has fully loaded
 // to avoid impacting initial page load performance and prevent registration errors.
 window.addEventListener('load', () => {
+  // Skip Service Worker registration in StackBlitz environment
+  if (window.location.hostname.includes('stackblitz') || window.location.hostname.includes('webcontainer')) {
+    console.log('Service Workers are not supported in this environment (StackBlitz/WebContainer)');
+    return;
+  }
+
   if ('serviceWorker' in navigator) {
     // In some sandboxed environments, `window.location.href` can be an invalid base for
     // the `URL` constructor, causing registration to fail. A more reliable method is
