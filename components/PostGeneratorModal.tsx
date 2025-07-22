@@ -381,7 +381,6 @@ export const PostGeneratorModal: React.FC<PostGeneratorModalProps> = ({ content,
   const currentBuiltInGallery = activeTab === 'post' ? imageBackgrounds : videoBackgrounds;
   const currentUserGallery = userUploads.filter(u => activeTab === 'post' ? u.type === 'image' : u.type === 'video');
 
-  const getReferenceText = () => isStory(content) ? content.title : (isQuran(content) ? content.reference : content.source);
   const getReferenceText = () => isStory(content) ? content.title : (isQuran(content) ? content.verse_english.substring(0, 50) + '...' : content.source);
   const getMainText = () => isStory(content) ? `"${content.story}"` : (isQuran(content) ? `"${content.verse_english}"` : `"${content.text_english}"`);
   const getArabicText = () => isQuran(content) ? content.verse_arabic : '';
