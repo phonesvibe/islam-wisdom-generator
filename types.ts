@@ -14,7 +14,6 @@ export interface QuranVerseType {
   verse_arabic: string;
   verse_english: string;
   verse_urdu: string;
-  reference: string;
 }
 
 export interface HadithType {

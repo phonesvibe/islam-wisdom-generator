@@ -13,7 +13,6 @@ export type Database = {
           verse_arabic: string;
           verse_english: string;
           verse_urdu: string;
-          reference: string;
           tags: string[] | null;
           created_at: string;
         };
@@ -21,14 +20,12 @@ export type Database = {
           verse_arabic: string;
           verse_english: string;
           verse_urdu: string;
-          reference: string;
           tags?: string[] | null;
         };
         Update: {
           verse_arabic?: string;
           verse_english?: string;
           verse_urdu?: string;
-          reference?: string;
           tags?: string[] | null;
         };
         Relationships: [];
@@ -114,11 +111,11 @@ const BUCKET_NAME = 'uploads';
 export const getQuranVerses = async (searchTerm?: string, limit: number = 5): Promise<QuranVerseType[]> => {
     let query = supabase
         .from('quran_verses')
-        .select('verse_arabic, verse_english, verse_urdu, reference');
+        .select('verse_arabic, verse_english, verse_urdu');
 
     if (searchTerm && searchTerm.trim()) {
         // Search in multiple fields and tags
-        query = query.or(`verse_english.ilike.%${searchTerm}%,verse_urdu.ilike.%${searchTerm}%,reference.ilike.%${searchTerm}%,tags.cs.{${searchTerm}}`);
+        query = query.or(`verse_english.ilike.%${searchTerm}%,verse_urdu.ilike.%${searchTerm}%,tags.cs.{${searchTerm}}`);
     }
 
     const { data, error } = await query

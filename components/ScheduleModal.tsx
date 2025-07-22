@@ -39,7 +39,7 @@ export const ScheduleModal: React.FC<ScheduleModalProps> = ({
     } else {
       let initialTitle = '';
       if (contentToSchedule) {
-        if (isQuran(contentToSchedule)) initialTitle = contentToSchedule.reference;
+        if (isQuran(contentToSchedule)) initialTitle = contentToSchedule.verse_english.substring(0, 50) + '...';
         else if (isHadith(contentToSchedule)) initialTitle = contentToSchedule.source;
         else if (isStory(contentToSchedule)) initialTitle = contentToSchedule.title;
       }

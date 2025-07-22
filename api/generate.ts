@@ -8,10 +8,9 @@ const quranSchema = {
   properties: {
     verse_arabic: { type: Type.STRING, description: "The full Quranic verse in Arabic script." },
     verse_english: { type: Type.STRING, description: "The English translation of the verse." },
-    verse_urdu: { type: Type.STRING, description: "The Urdu translation of the verse." },
-    reference: { type: Type.STRING, description: "The reference, e.g., 'Surah Al-Baqarah, 2:155'." }
+    verse_urdu: { type: Type.STRING, description: "The Urdu translation of the verse." }
   },
-  required: ["verse_arabic", "verse_english", "verse_urdu", "reference"]
+  required: ["verse_arabic", "verse_english", "verse_urdu"]
 };
 
 const hadithSchema = {
